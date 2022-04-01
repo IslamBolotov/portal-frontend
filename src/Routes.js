@@ -22,8 +22,6 @@ const Routes = () => {
             <Route path='/testing-catalog' exact component={TestingCatalog} />
             <Route path='/testing-catalog/user/:userId' exact component={TestingCatalog} />
             <Route path='*' exact component={NoPage} />
-
-
         </Switch>
     );
 };

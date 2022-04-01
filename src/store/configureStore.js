@@ -1,7 +1,7 @@
 import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {createBrowserHistory} from 'history';
-import {connectRouter, routerMiddleware} from 'connected-react-router';
+import {connectRouter, push, routerMiddleware} from 'connected-react-router';
 import {loadFromLocalStorage, saveToLocalStorage} from './localStorage';
 import axios from '../axiosBase';
 import noticeReducers from './reducers/noticeReducers';
@@ -32,27 +32,31 @@ const middleware = [
 
 const enhancers = composeEnhancers(applyMiddleware(...middleware));
 
-const persistedState = loadFromLocalStorage();
+const persistedState = {users: {token: loadFromLocalStorage()}};
 
 const store = createStore(rootReducer, persistedState, enhancers);
 
 store.subscribe(() => {
-    if (store.getState().users.user) {
-        saveToLocalStorage({
-            users: {
-                user: store.getState().users.user
-            }
-        });
+    if (store.getState().token) {
+        saveToLocalStorage(store.getState().token);
     }
 });
 
+axios.interceptors.response.use(response => {
+        return response;
+    }, error => {
+        if (error.response.status === 401) {
+            store.dispatch(push('/login'))
+        }
+        return error;
+    });
+
 axios.interceptors.request.use(config => {
     try {
-        config.headers['Authorization'] = store.getState().users.user.token;
+        config.headers['Authorization'] = loadFromLocalStorage() || '';
     } catch(e) {
         // do nothing, user is not logged in
     }
-
     return config
 });
 

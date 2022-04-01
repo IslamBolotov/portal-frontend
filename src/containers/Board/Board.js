@@ -120,7 +120,7 @@ class Board extends Component {
                 )
             })
         }
-        return (
+        return this.props.user ? (
             <Fragment>
                 <Toolbar
                     user={this.props.user}
@@ -224,7 +224,7 @@ class Board extends Component {
                     </div>
                 </div>
             </Fragment>
-        );
+        ) : <></>;
     }
 }
 

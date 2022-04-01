@@ -10,7 +10,8 @@ const initialState = {
     registerError: null,
     loginError: null,
     editUserError: null,
-    user: null
+    user: null,
+    token: '',
 };
 
 const usersReducers = (state = initialState, action) => {

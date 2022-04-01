@@ -23,10 +23,10 @@ import './PersonalAccount.css';
 
 class PersonalAccount extends Component {
     state = {
-        email: this.props.user.email,
-        secondName: this.props.user.secondName,
-        firstName: this.props.user.firstName,
-        lastName: this.props.user.lastName,
+        email: this.props?.user?.email,
+        secondName: this.props?.user?.secondName,
+        firstName: this.props?.user?.firstName,
+        lastName: this.props?.user?.lastName,
         password: '',
         secondPassword: '',
         editProfileModal: false,
@@ -79,7 +79,7 @@ class PersonalAccount extends Component {
     };
 
     render() {
-        return (
+        return this.props.user ? (
             <Fragment>
                 <Toolbar
                     user={this.props.user}
@@ -209,7 +209,7 @@ class PersonalAccount extends Component {
                     </div>
                 </div>
             </Fragment>
-        );
+        ): <></>;
     }
 }
 

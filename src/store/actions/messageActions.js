@@ -28,7 +28,7 @@ export const fetchMessagesByDialogId = currentDialogId => {
 
 export const createNewMessage = (messageData) => {
     return dispatch => {
-        return axios.post('/messages', messageData).then(() => {
+        return axios.post('/messages', messageData).then((res) => {
             dispatch(createMessageSuccess);
         })
     }

@@ -320,7 +320,7 @@ let questions=this.state.testing.questions;
                     )
                 })
             }
-        return (
+        return this.props.user ? (
             <Fragment>
                 <Toolbar
                     user={this.props.user}
@@ -655,7 +655,7 @@ let questions=this.state.testing.questions;
                     </div>
                 </div>
             </Fragment>
-        );
+        ) : <></>;
     }
 }
 

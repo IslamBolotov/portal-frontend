@@ -107,7 +107,7 @@ class Catalog extends Component {
                 )
             })
         }
-        return (
+        return this.props.user ? (
             <Fragment>
                 <Toolbar
                     user={this.props.user}
@@ -215,7 +215,7 @@ class Catalog extends Component {
                     </div>
                 </div>
             </Fragment>
-        );
+        ) : <></>;
     }
 }
 

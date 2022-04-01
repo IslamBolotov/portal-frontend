@@ -1,6 +1,7 @@
 import {push} from 'connected-react-router';
 import {NotificationManager}  from 'react-notifications';
 import axios from '../../axiosBase';
+import { saveToLocalStorage } from '../localStorage';
 
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
 export const REGISTER_USER_FAILURE = 'REGISTER_USER_FAILURE';
@@ -28,7 +29,7 @@ export const editUserSuccess = user => ({type: EDIT_USER_SUCCESS, user});
 export const editUserFailure = error => ({type: EDIT_USER_FAILURE, error});
 
 export const fetchUserInfo = () => {
-    return dispatch => {
+    return (dispatch) => {
         return axios.get('/users').then(
             response => {
                 dispatch(getUserInfo(response.data));
@@ -40,9 +41,8 @@ export const fetchUserInfo = () => {
 export const logoutUser = () => {
     return (dispatch, getState) => {
         const token = getState().users.user.token;
-        const config = {headers: {'Authorization': token}};
 
-        return axios.delete('/users/sessions', config).then(
+        return axios.delete('/users/sessions').then(
             () => {
                 dispatch({type: LOGOUT_USER});
                 NotificationManager.success('Вы вышли из системы!');
@@ -75,11 +75,13 @@ export const registerUser = userData => {
 };
 
 export const loginUser = userData => {
-    return dispatch => {
+    return (dispatch, getState) => {
         return axios.post('/users/sessions', userData).then(
             response => {
                 dispatch(loginUserSuccess(response.data.user));
                 NotificationManager.success('Вы вошли в систему!');
+                dispatch(getUserInfo(response.data));
+                saveToLocalStorage(response.data.user.token);
                 dispatch(push('/'));
             }, error => {
                 if (error.response) {
