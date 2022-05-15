@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {withRouter} from 'react-router-dom';
 
 const ChatInput = () => {
-    return (
-      <h1>No Page</h1>
+  return (
+    <h1>Page Not Found</h1>
   );
 };
 

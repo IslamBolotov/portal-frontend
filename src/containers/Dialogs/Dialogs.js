@@ -10,6 +10,8 @@ const Dialogs = ({ fetchDialogs, updateReadStatus, currentDialogId, dialogs, use
   const [inputValue, setValue] = useState('');
   const [filteredItems, setFilteredItems] = useState(Array.from(dialogs));
 
+  // socket.on('message:add', 'fetchDialogs');
+
   const onChangeInput = (value = '') => {
     setFilteredItems(
       dialogs.filter(
@@ -22,6 +24,7 @@ const Dialogs = ({ fetchDialogs, updateReadStatus, currentDialogId, dialogs, use
   };
 
   useEffect(() => {
+    console.log(dialogs);
     if (dialogs.length) {
       onChangeInput();
     }
@@ -30,13 +33,13 @@ const Dialogs = ({ fetchDialogs, updateReadStatus, currentDialogId, dialogs, use
   useEffect(() => {
     fetchDialogs();
 
-    socket.on('SERVER:DIALOG_CREATED', fetchDialogs);
-    socket.on('SERVER:NEW_MESSAGE', fetchDialogs);
-    socket.on('SERVER:MESSAGES_READ', updateReadStatus);
-    return () => {
-      socket.removeListener('SERVER:DIALOG_CREATED', fetchDialogs);
-      socket.removeListener('SERVER:NEW_MESSAGE', fetchDialogs);
-    };
+    // socket.on('message:add', 'fetchDialogs');
+    // socket.on('SERVER:NEW_MESSAGE', fetchDialogs);
+    // socket.on('SERVER:MESSAGES_READ', updateReadStatus);
+    // return () => {
+    //   socket.removeListener('SERVER:DIALOG_CREATED', fetchDialogs);
+    //   socket.removeListener('SERVER:NEW_MESSAGE', fetchDialogs);
+    // };
   }, [fetchDialogs, updateReadStatus]);
 
   return (

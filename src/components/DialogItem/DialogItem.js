@@ -16,7 +16,7 @@ const renderLastMessage = (message, user) => {
         text = message.text;
     }
 
-    return `${message.user._id === user ? 'Вы: ' : ''}${text}`;
+    return `${message.user?._id === user ? 'Вы: ' : ''}${text}`;
 };
 
 const DialogItem = ({_id, user, partner, author, read, text, currentDialogId, lastMessage, isMe}) => {
@@ -36,8 +36,8 @@ const DialogItem = ({_id, user, partner, author, read, text, currentDialogId, la
                 </span>
                 <span className='dialogs__item-message'>
                     <span className='dialogs__item-message__text'>{renderLastMessage(lastMessage, user._id)}</span>
-                    {isMe && <IconRead isMe={isMe} isReaded={lastMessage.read} />}
-                    {(lastMessage.read === false && user._id !== lastMessage.user._id) && <span className='dialogs__item-count' />}
+                    {isMe && <IconRead isMe={isMe} isReaded={lastMessage?.read} />}
+                    {(lastMessage.read === false && user._id !== lastMessage.user?._id) && <span className='dialogs__item-count' />}
                 </span>
             </span>
         </Link>

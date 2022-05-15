@@ -14,13 +14,15 @@ export const setCurrentPage = currentPage => ({type: SET_CURRENT_PAGE, currentPa
 export const setTotalNotices = totalNotices => ({type: SET_TOTAL_NOTICES, totalNotices});
 
 export const fetchNotice = (pageNumber, noticePerPage) => {
-    return dispatch => {
-        return axios.get(`/notice?page=${pageNumber}&limit=${noticePerPage}`).then(
-            response => {
-                dispatch(fetchNoticeSuccess(response.data.notices));
-                dispatch(setTotalNotices(response.data.totalNotices));
-            }
-        );
+    return async dispatch => {
+        try {
+            const response = await axios.get(`/notice?page=${pageNumber}&limit=${noticePerPage}`);
+            dispatch(fetchNoticeSuccess(response.data.notices));
+            dispatch(setTotalNotices(response.data.totalNotices));
+        } catch (error) {
+            console.log(error);
+        }
+        
     };
 };
 

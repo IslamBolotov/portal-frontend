@@ -17,6 +17,11 @@ const Messages = ({
   addMessage,
   user }) => {
 
+  socket.on('message', () => {
+    console.log('message');
+    socket.emit('message:add', 'wefwefw')
+  })
+
   const messagesRef = useRef(null);
 
   const onNewMessage = (message) => {
@@ -27,6 +32,10 @@ const Messages = ({
     if (currentDialog) {
       fetchMessagesByDialogId(currentDialog._id);
     }
+
+    socket.on('connection', () => {
+      console.log('connected');
+    })
 
     socket.on('SERVER:NEW_MESSAGE', onNewMessage);
 

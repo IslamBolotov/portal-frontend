@@ -46,7 +46,7 @@ export const logoutUser = () => {
             () => {
                 dispatch({type: LOGOUT_USER});
                 NotificationManager.success('Вы вышли из системы!');
-                dispatch(push('/'));
+                dispatch(push('/login'));
             },
             error => {
                 NotificationManager.error('Не возможно авторизоваться, попробуйте позже!')
@@ -75,22 +75,30 @@ export const registerUser = userData => {
 };
 
 export const loginUser = userData => {
-    return (dispatch, getState) => {
-        return axios.post('/users/sessions', userData).then(
-            response => {
-                dispatch(loginUserSuccess(response.data.user));
-                NotificationManager.success('Вы вошли в систему!');
-                dispatch(getUserInfo(response.data));
-                saveToLocalStorage(response.data.user.token);
-                dispatch(push('/'));
-            }, error => {
-                if (error.response) {
-                    dispatch(loginUserFailure(error.response.data))
-                } else {
-                    dispatch(loginUserFailure({global: 'Нет соединения'}))
-                }
+    return async (dispatch, getState) => {
+        try {
+            const response = await axios.post('/users/sessions', userData);
+            dispatch(loginUserSuccess(response.data.user));
+            NotificationManager.success('Вы вошли в систему!');
+            dispatch(getUserInfo(response.data));
+            saveToLocalStorage(response.data.user.token);
+            dispatch(push('/'));
+        } catch (error){
+            if (error.response) {
+                dispatch(loginUserFailure(error.response.data))
+            } else {
+                dispatch(loginUserFailure({global: 'Нет соединения'}))
             }
-        )
+        }
+        // const res = await axios.post('/users/sessions', userData);
+
+        // return await axios.post('/users/sessions', userData).then(
+        //     response => {
+                
+        //     }, error => {
+                
+        //     }
+        // )
     }
 };
 
