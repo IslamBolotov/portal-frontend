@@ -207,3 +207,60 @@ font-weight: 500;
     border-radius: 50%;
     background: white;
 }
+.req{
+    color:red;
+}
+
+.answers{
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.answers > span{
+    font-weight: 400;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.answers2{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.answers2 >span{
+    font-weight: 400;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.delete_icon{
+    width: 25px;
+}
+
+.del_modal{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between !important;
+    text-align: center;
+}
+
+.del_modal-buttons{
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.button{
+    background-color: gray !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: white!important;
+}
+.del{
+    background-color: red !important;
+    margin-left: 100px !important;
+}
