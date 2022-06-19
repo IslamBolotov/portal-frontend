@@ -6,7 +6,7 @@ const MessageItems = ({blockRef, messages, user}) => {
     return (
         <div ref={blockRef} className='chat__dialog-messages'>
             {
-                messages.length > 0 ? (
+                messages?.length > 0 ? (
                     messages.map(message => (
                         <Message
                             {...message}

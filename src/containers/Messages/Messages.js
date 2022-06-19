@@ -17,25 +17,32 @@ const Messages = ({
   addMessage,
   user }) => {
 
+  const socketRef = useRef(socket);
+  const messagesRef = useRef(null);
+  
   socket.on('message', () => {
     console.log('message');
-    socket.emit('message:add', 'wefwefw')
   })
 
-  const messagesRef = useRef(null);
 
   const onNewMessage = (message) => {
     addMessage(message);
   };
 
   useEffect(() => {
+    socketRef.current.query = { roomId: currentDialog };
+    
+    console.log(currentDialog);
+  }, [])
+
+  useEffect(() => {
     if (currentDialog) {
-      fetchMessagesByDialogId(currentDialog._id);
+      fetchMessagesByDialogId(currentDialog);
     }
 
-    socket.on('connection', () => {
-      console.log('connected');
-    })
+    // socket.on('connection', () => {
+    //   console.log('connected');
+    // })
 
     socket.on('SERVER:NEW_MESSAGE', onNewMessage);
 
@@ -63,7 +70,7 @@ const Messages = ({
 
 const mapStateToProps = state => ({
   user: state.users.user,
-  currentDialog: find(state.dialogs.dialogs, { _id: state.dialogs.currentDialogId }),
+  currentDialog: state.dialogs.currentDialogId,
   messages: state.messages.messages,
 });
 

@@ -10,8 +10,6 @@ const Dialogs = ({ fetchDialogs, updateReadStatus, currentDialogId, dialogs, use
   const [inputValue, setValue] = useState('');
   const [filteredItems, setFilteredItems] = useState(Array.from(dialogs));
 
-  // socket.on('message:add', 'fetchDialogs');
-
   const onChangeInput = (value = '') => {
     setFilteredItems(
       dialogs.filter(
@@ -32,7 +30,7 @@ const Dialogs = ({ fetchDialogs, updateReadStatus, currentDialogId, dialogs, use
 
   useEffect(() => {
     fetchDialogs();
-
+    console.log('dialogs', dialogs);
     // socket.on('message:add', 'fetchDialogs');
     // socket.on('SERVER:NEW_MESSAGE', fetchDialogs);
     // socket.on('SERVER:MESSAGES_READ', updateReadStatus);
