@@ -1,9 +1,9 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component, Fragment } from 'react';
 import Moment from 'react-moment';
 import 'moment/locale/ru';
-import {connect} from 'react-redux';
-import {apiURL} from '../../constants';
-import {withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { apiURL } from '../../constants';
+import { withRouter } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -15,8 +15,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 
 import Toolbar from '../../components/UI/Toolbar';
-import {createNotice, fetchNotice, setCurrentPage} from '../../store/actions/noticeActions';
-import {logoutUser} from '../../store/actions/userActions';
+import { createNotice, fetchNotice, setCurrentPage } from '../../store/actions/noticeActions';
+import { logoutUser } from '../../store/actions/userActions';
 import PaginationBlock from '../../components/Pagination/Pagination';
 
 import './Board.css';
@@ -28,6 +28,7 @@ class Board extends Component {
         noticeFile: [],
         fileName: [],
         addNoticeModal: false,
+        detailModal: false
     };
 
     componentDidMount() {
@@ -40,11 +41,19 @@ class Board extends Component {
         });
     };
 
+    openDetailModal = () => {
+        this.setState({ detailModal: true });
+    };
+
+    closeDetailModal = () => {
+        this.setState({ detailModal: false });
+    };
+
     openNoticeModal = () => {
-        this.setState({addNoticeModal: true});
+        this.setState({ addNoticeModal: true });
     };
     closeNoticeModal = () => {
-        this.setState({addNoticeModal: false, title: '', description: '', noticeFile: [], fileName: []});
+        this.setState({ addNoticeModal: false, title: '', description: '', noticeFile: [], fileName: [] });
     };
 
     noticeChangeHandler = event => {
@@ -106,7 +115,7 @@ class Board extends Component {
                             <span><Moment format='LLL' locale='ru'>{notice.dateTime}</Moment></span>
                         </div>
                         <h4 className='board-post__title'>{notice.title}</h4>
-                        <p className='board-post__desc'>{notice.description}</p>
+                        <p className='board-post__desc' onClick={this.openDetailModal}>{notice.description}</p>
                         <div className='board-post-file'>
                             {
                                 notice.noticeFile.map(file => {
@@ -116,6 +125,24 @@ class Board extends Component {
                                 })
                             }
                         </div>
+                        <Dialog  onClose={this.closeDetailModal} open={this.state.detailModal} className='add-user-modal'>
+                            <DialogTitle onClose={this.closeDetailModal} className='header-modal'>
+                                {notice.title}
+                                <IconButton aria-label='delete' className='close-modal' onClick={this.closeDetailModal}>
+                                    <CloseIcon fontSize='large' />
+                                </IconButton>
+                            </DialogTitle>
+                            <DialogContent>
+                                <p className='detail_info_text'>  <span className='detail_key-word'> Дата: </span> {notice.dateTime}</p><br />
+                                <p className='detail_info_text'>  <span className='detail_key-word'> Описание: </span> {notice.description}</p><br />
+                                <p className='detail_info_text'>  <span className='detail_key-word'> Файл: </span> {notice.noticeFile.map(file => {
+                                    return (
+                                        <a href={apiURL + '/uploads/notice/' + file} key={file}>{file}</a>
+                                    )
+                                })}</p><br />
+                                <p className='detail_info_text'> <span className='detail_key-word'> Пользователь: </span>  {notice.user.firstName} {notice.user.secondName}</p>
+                            </DialogContent>
+                        </Dialog>
                     </div>
                 )
             })
@@ -216,10 +243,10 @@ class Board extends Component {
                                 </div> : <div className='board-posts-empty'>Список объявлейний пуст</div>
                         }
                         <PaginationBlock
-                            totalNotices = {this.props.totalNotices}
-                            noticePerPage = {this.props.noticePerPage}
-                            currentPage = {this.props.currentPage}
-                            onPageChanged = {this.onPageChanged}
+                            totalNotices={this.props.totalNotices}
+                            noticePerPage={this.props.noticePerPage}
+                            currentPage={this.props.currentPage}
+                            onPageChanged={this.onPageChanged}
                         />
                     </div>
                 </div>
@@ -241,7 +268,7 @@ const mapDispatchToProps = dispatch => ({
     logoutUser: () => dispatch(logoutUser()),
     createdNotice: (noticeData, pageNumber, noticePerPage) => dispatch(createNotice(noticeData, pageNumber, noticePerPage)),
     fetchNotice: (pageNumber, noticePerPage) => dispatch(fetchNotice(pageNumber, noticePerPage)),
-    setCurrentPage: pageNumber => dispatch (setCurrentPage(pageNumber)),
+    setCurrentPage: pageNumber => dispatch(setCurrentPage(pageNumber)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Board));

@@ -58,3 +58,39 @@ export const  addFileToSubject = (subjectId, subjectData) =>{
         )
     }
 };
+
+export const  submitTest = (subjectId, testAnswer) =>{
+    return dispatch => {
+        axios.post(`/test/${subjectId}`, testAnswer).then(
+            () => {
+                dispatch(fetchSubjects());
+                dispatch(patchSubjectSuccess());
+                NotificationManager.success('Файл добавлен');
+                dispatch(push('/catalog'));
+            },
+            error => {
+                if (error.response) {
+                    NotificationManager.warning('Файлов должно быть от 1 до 5');
+                }
+            }
+        )
+    }
+};
+
+export const  addTest = (testAnswer) =>{
+    return dispatch => {
+        axios.post(`/test/${subjectId}`, testAnswer).then(
+            () => {
+                dispatch(fetchSubjects());
+                dispatch(patchSubjectSuccess());
+                NotificationManager.success('Файл добавлен');
+                dispatch(push('/catalog'));
+            },
+            error => {
+                if (error.response) {
+                    NotificationManager.warning('Файлов должно быть от 1 до 5');
+                }
+            }
+        )
+    }
+};

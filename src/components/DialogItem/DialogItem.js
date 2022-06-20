@@ -29,8 +29,8 @@ const DialogItem = ({_id, roomId, user, partner, author, read, text, currentDial
                 <span className='dialogs__item-info'>
                     {
                         user && user._id === author._id ?
-                            <span className='dialogs__item-info__user-name'>{partner.fullName}</span> :
-                            <span className='dialogs__item-info__user-name'>{author.fullName}</span>
+                            <span className='dialogs__item-info__user-name'>{partner?.fullName}</span> :
+                            <span className='dialogs__item-info__user-name'>{author?.fullName}</span>
                     }
                     <span className='dialogs__item-info__date'><Moment format='DD/MM/YYYY' locale='ru'>{lastMessage?.createdAt}</Moment></span>
                 </span>
