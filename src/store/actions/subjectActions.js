@@ -79,12 +79,12 @@ export const  submitTest = (subjectId, testAnswer) =>{
 
 export const  addTest = (testAnswer) =>{
     return dispatch => {
-        axios.post(`/test/${subjectId}`, testAnswer).then(
+        axios.post(`/test`, testAnswer).then(
             () => {
                 dispatch(fetchSubjects());
                 dispatch(patchSubjectSuccess());
                 NotificationManager.success('Файл добавлен');
-                dispatch(push('/catalog'));
+                dispatch(push('/testing-catalog'));
             },
             error => {
                 if (error.response) {
